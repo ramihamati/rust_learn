@@ -1,0 +1,119 @@
+
+App
+   ServiceA
+        Options[
+            {  // these are hard coded definitions that cannot be deleted for backward compatibility
+                Definition{
+                    Label "no-of-travelogues"
+                    Version "1"
+                    Validator{
+                        label "no-of-travelogue"
+                        version "1"
+                    }
+                }
+            }
+        ]
+
+            // Create: when a subscription is created, the value that is considered is the
+            //         one for which the effective date <= subscription.effectiveDate & tier=required-tier
+            //       : when setting, the latest version will always be considered
+            // Get   : when a subscription is retrieved, the value taken is the one for which
+            //         the version matches and the effective date is the closes to <= subscription.createdDate
+            Option.Value // cannot be removed for auditing and current usages
+                id "2341"
+                option "no-of-travelogues"
+                tier : tier-a
+                version "1"
+                value : json
+                effectiveDate: ticks
+
+    // this is a grouping of options per service
+    // it's purpose is to provide configurability per service for better
+    // granularity
+    FeatureConfiguration
+        service "ServiceA"
+        label "feature-service-a"
+        configurations : [
+            {
+                // historical records for current usages and auditing },
+                {
+                    label : "feature-tier-a"
+                    version : // increases when a configuration for the same label is added
+                    options: [
+                        { option : "no-of-travelogues", "version" : "", "tier" : "tier-a" } ,
+                    ],
+                    effectiveDate: when-this-starts // the range is valid for the subscriptions created in this period (not manually changeable)
+                    endDate : when-this-expires. Nullable. // gets set when a new version is added (not manually changeable)
+                },
+                {
+                    label : "feature-tier-b" // cannot have duplicate labels
+                    version : // increases when a configuration for the same label is added
+                    options: [ { option : "no-of-travelogues", "version" : "", "tier" : "tier-b" } ],
+                    effectiveDate: when-this-starts
+                    endDate : when-this-expires. Nullable.
+                }
+        ]
+
+    Tiers
+        TierA
+            Id
+            Name
+            Configurations : [
+                // older records are not deleted for auditing and current usages
+                {
+                      {
+                        features: [{
+                            Feature{
+                                label : "feature#service-a"
+                                configuration : "feature-tier-a"
+                                // the feature version will be the having the range at the current oferring effective date
+                            }
+
+                            effectiveDate: when-this-starts (can be manually set, it's our offering)
+                            endDate : when-this-expires. Nullable. (can be manually set. it;s our offering)
+                        }
+                    },
+                }
+            ]
+
+    Subscription
+        [{
+                // not deleted for historical reasons
+                TierA
+                CreatedAt // will be used to match the configuration where if falls in the featuretier.effectiveDate
+                EffectiveDate // when should this subscription start
+                EndDate // when was this no longer paid for.
+                Cancelled // forcefully cancelling this
+            }
+        }]
+
+        Services [{
+            ServiceA : [{
+                FeatureA.Label2024 {
+                    OptionA.LabelV1.Id
+                    OptionA.V1.Value.Id
+                }
+            }]
+        }]
+        FeatureA : explicitly adding options. options will be valid until end date?
+            OptionA
+                - all versions
+        FeatureB
+
+    Subscription[]:
+        Id
+        Oferrings[
+            // old ones will exist for continuity of existing subscriptions
+            {
+                Id
+                EffectiveDate
+                Services [{
+                    ServiceA:
+                        FeatureA.Label2024
+                           OptionA.LabelV1
+                           OptionA.V1.Value.Id
+                        FeatureB.Label2023
+                }]
+            }
+        ]
+

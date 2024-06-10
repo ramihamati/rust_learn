@@ -2,60 +2,39 @@ mod domain;
 mod errors;
 mod validations;
 mod trip_builder_features;
+mod mongo;
+mod configurations;
 
+use chrono::{Utc};
 use uuid::Uuid;
-use domain::feature_setting::FeatureOption;
-use crate::validations::validate::{IValidate, PredicateValidateOption};
-use crate::validations::validation_result::ValidationResult;
+use crate::configurations::configuration_mongo::ConfigurationMongo;
+use crate::domain::feature_setting::EntityFeatureOption;
+use crate::mongo::mongo_connection_unit::MongoConnectionUnit;
+use crate::validations::validate::{IValidate};
 
 struct FeatureTravelogueCount {
-    name : &'static str,
-    id : &'static str
+    name: &'static str,
+    id: &'static str,
 }
 
-
-
-fn main() {
-    // println!("Hello, world!");
-    //
-    // let error = ErrorCode {
-    //     error_code: "hello".to_string(),
-    //     error_message: "bye".to_string(),
-    // };
-    //
-    // println!("{}", error);
-    //
-    // let id = Uuid::new_v4();
-    //
-    // let serviceplan = ServicePlan {
-    //     name: "hello".to_string(),
-    //     id: Uuid::new_v4(),
-    //     features: vec![
-    //         FeatureOption{
-    //             id : Uuid::new_v4(),
-    //             name : "name".to_string()
-    //         }
-    //     ],
-    // };
-
-    let option = FeatureOption{
-        label : String::from( "no-of-travelogues"),
-        id : Uuid::new_v4().to_string().clone().to_string(),
-        versions: Vec::new()
+#[tokio::main]
+async fn main() {
+    let option = EntityFeatureOption {
+        label: String::from("no-of-travelogues"),
+        id: Uuid::new_v4().to_string().clone().to_string(),
+        version: 0,
+        effective_date: Some(Utc::now()),
+        serialized: "".to_string(),
     };
 
-    let validator = PredicateValidateOption::<FeatureOption>::New(
-        can_validate,
-        validate);
+    let provider = ConfigurationMongo {
+        connection_string: "mongodb://100.103.106.35:27017/?readPreference=primary".to_string(),
+        connection_timeout: None,
+        sleep_between_retries: None,
+        retry_count: None,
+    };
 
-    fn can_validate(option: FeatureOption ) -> bool{
-        return option.label == "no-of-travelogues"
-    }
+    let connection_unit = MongoConnectionUnit::new(Box::new(provider)).await;
 
-    fn validate(option : FeatureOption) -> ValidationResult{
-        ValidationResult::valid()
-    }
-
-
-    println!("{:?}",validator.validate(option))
+    println!("{:?}", connection_unit)
 }

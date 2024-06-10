@@ -1,18 +1,21 @@
-use serde::Serialize;
 use std::fmt::{Display};
-use crate::validations::validate::PredicateValidateOption;
+use chrono::{DateTime, Utc};
+use serde::Serialize;
+use crate::validations::validation_result::ValidationResult;
 
-pub struct FeatureOption {
+#[derive(Debug, Serialize)]
+pub struct EntityFeatureOption {
     pub id: String,
     pub label: String,
-    pub versions : Vec<FeatureOptionVersion>
+    pub version : i32,
+    pub effective_date : Option<DateTime<Utc>>,
+    pub serialized : String
 }
 
-pub struct FeatureOptionVersion {
-    pub version: u32,
-    pub validator : PredicateValidateOption<FeatureValue>
+pub trait FeatureOptionValidator{
+    fn can_validate(option: EntityFeatureOption) -> bool;
+    fn validate(option: EntityFeatureOption) -> ValidationResult;
 }
-
 pub enum FeatureValue{
     OptionMaxCount (u32),
 }

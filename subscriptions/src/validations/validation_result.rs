@@ -1,9 +1,9 @@
 use serde::Serialize;
 
 #[derive(Serialize, Debug)]
-pub(crate) struct ValidationResult {
-    pub(crate) is_valid: bool,
-    pub(crate) message: &'static str,
+pub struct ValidationResult {
+    pub is_valid: bool,
+    pub message: &'static str,
 }
 
 impl ValidationResult {

@@ -1,4 +1,3 @@
-use crate::domain::feature_setting::FeatureOption;
 use crate::validations::validation_result::ValidationResult;
 
 pub(crate) trait IValidate<T> {

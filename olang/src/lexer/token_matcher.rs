@@ -1,8 +1,8 @@
 use crate::lexer::token::Token;
 
 pub trait TokenMatcher<'a> {
-    fn is_match(&self, chars: &Vec<&'a char>) -> bool;
-    fn create_token(&self, chars: &Vec<&'a char>, localisation: TokenLocalisation) -> Token;
+    fn is_match(&self, chars: &'a str) -> bool;
+    fn create_token(&self, chars: &'a str, localisation: TokenLocalisation) -> Token;
 }
 
 pub struct TokenLocalisation {

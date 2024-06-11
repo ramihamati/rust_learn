@@ -7,6 +7,7 @@ pub struct InputReader<'a> {
     pub scanner_current: usize, // position in line
     pub line: usize, // line number
     pub scanner_start: usize, // scanner start
+    scan_started : bool
 }
 
 impl<'a> InputReader<'a> {
@@ -19,12 +20,23 @@ impl<'a> InputReader<'a> {
             scanner_current: 0, // current position per document
             scanner_start: 0, // where has the token started
             line: 0, // current line
+            scan_started : false
         }
     }
 
     pub(crate) fn scanner_advance(self: &mut Self) -> bool {
-        self.scanner_current += 1;
-        self.line_current += 1;
+        // - this method is the first one called in the loop and the first iteration must not skip the first char
+        // - moving this method at the end of the loop would cause the first token to be one char long and other
+        //   hacks would make the code unclear
+        // - setting scanner_current = -1 would require the variable not to be usize which would limit the allowed file length (although, having such large
+        //   files is definetly an issue)
+        if (self.scan_started){
+            self.scanner_current += 1;
+            self.line_current += 1;
+        }else{
+            self.scan_started = true;
+        }
+
         !self.is_at_end()
     }
     pub(crate) fn scanner_forward(self: &mut Self) -> bool {
@@ -33,9 +45,8 @@ impl<'a> InputReader<'a> {
         !self.is_at_end()
     }
 
-    pub(crate) fn get_current_char(self: &Self) -> char {
-        let c = self.input_as_bytes[self.scanner_current];
-        c as char
+    pub(crate) fn get_token_sequence(self: &Self) -> &'a str {
+        return &self.input[self.scanner_current..self.scanner_current +1 ]
     }
 
     fn is_at_end(self: &Self) -> bool {

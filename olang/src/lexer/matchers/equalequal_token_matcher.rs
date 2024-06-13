@@ -1,23 +1,19 @@
 use crate::lexer::readers::code_reader::InputReader;
 use crate::lexer::token::Token;
-use crate::lexer::token_matcher::{TokenLocalisation, TokenMatcher};
+use crate::lexer::token_matcher::{TokenMatcher};
 use crate::lexer::token_type::TokenType;
 
-pub struct OpenBraceTokenMatcher {
+pub struct EqualEqualTokenMatcher {
 }
 
-impl<'a> TokenMatcher<'a> for OpenBraceTokenMatcher {
+impl<'a> TokenMatcher<'a> for EqualEqualTokenMatcher {
     fn create(&self, reader: &mut InputReader) -> Option<Token> {
-        if (!reader.advance(1)){
-            return None
-        }
+        reader.advance(2);
         let peek = reader.collect();
 
-        if let Some(first_char) = peek.chars().next() {
-
-            if (first_char == '{'){
+        if (peek == "=="){
                 let token = Token {
-                    token_type: TokenType::OpenBrace,
+                    token_type: TokenType::EqualEqual,
                     line_number: reader.line,
                     position: reader.line_start,
                     lexeme: peek.to_string(),
@@ -26,8 +22,8 @@ impl<'a> TokenMatcher<'a> for OpenBraceTokenMatcher {
                 reader.forward();
 
                 return Some(token)
-            }
         }
+
         reader.revert_advance();
         return None;
     }

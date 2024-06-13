@@ -3,7 +3,7 @@ use crate::lexer::lexer::Lexer;
 mod lexer;
 
 fn main() {
-    let code = "{},()";
+    let code = "{},==()";
 
     let mut lexer = Lexer::new(code);
     let tokens = lexer.scan_tokens();
@@ -16,5 +16,9 @@ fn main() {
             println!("errors: \n{}", e)
         }
     }
-    println!("Hello, world!");
+    //
+    // let a = "hello";
+    // let slice = &a[4..5];
+    //
+    // println!("{}", slice);
 }

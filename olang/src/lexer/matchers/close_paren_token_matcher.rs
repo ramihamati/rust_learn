@@ -1,31 +1,33 @@
+use crate::lexer::readers::code_reader::InputReader;
 use crate::lexer::token::Token;
-use crate::lexer::token_matcher::{TokenLocalisation, TokenMatcher};
+use crate::lexer::token_matcher::{TokenMatcher};
 use crate::lexer::token_type::TokenType;
 
 pub struct CloseParenTokenMatcher{
 }
 
 impl<'a> TokenMatcher<'a> for CloseParenTokenMatcher {
-    fn is_match(&self, chars: &'a str) -> bool {
-        if chars.len() > 1 {
-            return false;
+    fn create(&self, reader: &mut InputReader) -> Option<Token> {
+        if (!reader.advance(1)){
+            return None
         }
+        let peek = reader.collect();
 
-        return if let Some(first_char) = chars.chars().next() {
-            first_char == ')'
-        } else {
-            false
+        if let Some(first_char) = peek.chars().next() {
+
+            if (first_char == ')'){
+                let token = Token {
+                    token_type: TokenType::CloseParen,
+                    line_number: reader.line,
+                    position: reader.line_start,
+                    lexeme: peek.to_string(),
+                    literal_value: None,
+                };
+                reader.forward();
+                return Some(token)
+            }
         }
-    }
-
-    fn create_token(&self, chars: &'a str, localisation: TokenLocalisation) -> Token {
-
-        return Token {
-            token_type: TokenType::CloseParen,
-            line_number: localisation.line,
-            position: localisation.line_start,
-            lexeme: chars.to_string(),
-            literal_value: None,
-        };
+        reader.revert_advance();
+        return None;
     }
 }

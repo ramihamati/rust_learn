@@ -1,8 +1,8 @@
+use crate::lexer::readers::code_reader::InputReader;
 use crate::lexer::token::Token;
 
 pub trait TokenMatcher<'a> {
-    fn is_match(&self, chars: &'a str) -> bool;
-    fn create_token(&self, chars: &'a str, localisation: TokenLocalisation) -> Token;
+    fn create(&self, reader: &mut InputReader) -> Option<Token>;
 }
 
 pub struct TokenLocalisation {

@@ -1,9 +1,8 @@
-use crate::lexer::lexer::Lexer;
-
+use crate::lexer::Lexer;
 mod lexer;
 
 fn main() {
-    let code = "{},==()";
+    let code = "{},==+()-";
 
     let mut lexer = Lexer::new(code);
     let tokens = lexer.scan_tokens();

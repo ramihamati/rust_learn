@@ -1,28 +1,29 @@
-use crate::lexer::readers::code_reader::InputReader;
-use crate::lexer::symbols::token::Token;
-use crate::lexer::token_matcher::{TokenMatcher};
-use crate::lexer::symbols::token_type::TokenType;
+use crate::lexer::InputReader;
+use crate::lexer::Token;
+use crate::lexer::{TokenMatcher};
+use crate::lexer::TokenType;
 
-pub struct CommaTokenMatcher {
+pub struct TokenMatcherCloseParen {
 }
 
-impl<'a> TokenMatcher<'a> for CommaTokenMatcher {
+impl<'a> TokenMatcher<'a> for TokenMatcherCloseParen {
     fn create(&self, reader: &mut InputReader) -> Option<Token> {
-        reader.advance(1);
+        if !reader.advance(1) {
+            return None
+        }
         let peek = reader.collect();
 
         if let Some(first_char) = peek.chars().next() {
 
-            if (first_char == ','){
+            if (first_char == ')'){
                 let token = Token {
-                    token_type: TokenType::Comma,
+                    token_type: TokenType::CloseParen,
                     line_number: reader.line,
                     position: reader.line_start,
                     lexeme: peek.to_string(),
                     literal_value: None,
                 };
                 reader.forward();
-
                 return Some(token)
             }
         }

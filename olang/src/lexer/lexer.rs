@@ -1,13 +1,15 @@
-use crate::lexer::readers::code_reader::InputReader;
-use crate::lexer::matchers::close_brace_token_matcher::CloseBraceTokenMatcher;
-use crate::lexer::matchers::close_paren_token_matcher::CloseParenTokenMatcher;
-use crate::lexer::matchers::comma_token_matcher::CommaTokenMatcher;
-use crate::lexer::matchers::equalequal_token_matcher::EqualEqualTokenMatcher;
-use crate::lexer::matchers::open_brace_token_matcher::OpenBraceTokenMatcher;
-use crate::lexer::matchers::open_paren_token_matcher::OpenParenTokenMatcher;
-use crate::lexer::symbols::token::Token;
-use crate::lexer::token_matcher::{TokenMatcher};
-use crate::lexer::symbols::token_type::TokenType;
+use crate::lexer::InputReader;
+use crate::lexer::TokenMatcherCloseBrace;
+use crate::lexer::TokenMatcherCloseParen;
+use crate::lexer::TokenMatcherComma;
+use crate::lexer::TokenMatcherEqualEqual;
+use crate::lexer::TokenMatcherOpenBrace;
+use crate::lexer::TokenMatcherOpenParen;
+use crate::lexer::Token;
+use crate::lexer::{TokenMatcher};
+use crate::lexer::TokenType;
+use crate::lexer::TokenMatcherPlus;
+use crate::lexer::TokenMatcherMinus;
 
 pub struct Lexer<'a> {
     tokens: Vec<Token>,
@@ -21,12 +23,17 @@ impl<'a> Lexer<'a> {
         let mut matchers : Vec<Box<dyn TokenMatcher>> = vec![];
 
         // order as priority matters
-        matchers.push(Box::new(OpenParenTokenMatcher {}));
-        matchers.push(Box::new(CloseParenTokenMatcher {}));
-        matchers.push(Box::new(OpenBraceTokenMatcher {}));
-        matchers.push(Box::new(CloseBraceTokenMatcher {}));
-        matchers.push(Box::new(CommaTokenMatcher {}));
-        matchers.push(Box::new(EqualEqualTokenMatcher {}));
+
+        // fixed length single characters
+        matchers.push(Box::new(TokenMatcherOpenParen {}));
+        matchers.push(Box::new(TokenMatcherCloseParen {}));
+        matchers.push(Box::new(TokenMatcherOpenBrace {}));
+        matchers.push(Box::new(TokenMatcherCloseBrace {}));
+        matchers.push(Box::new(TokenMatcherComma {}));
+        matchers.push(Box::new(TokenMatcherPlus {}));
+        matchers.push(Box::new(TokenMatcherMinus {}));
+
+        matchers.push(Box::new(TokenMatcherEqualEqual {}));
 
         Lexer {
             tokens: vec![],
@@ -55,7 +62,7 @@ impl<'a> Lexer<'a> {
         // let mut errors = vec![];
         let mut unidentifierd = String::new();
 
-        while(self.reader.can_advance()) {
+        while self.reader.can_advance() {
             let next_token = self.get_next_token();
             match next_token {
                 Some(token) =>{

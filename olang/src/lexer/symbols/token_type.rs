@@ -22,8 +22,8 @@ pub enum TokenType {
     False, // false
     Var, // var
     // other
-    Plus, // +
-    Minus, // -
+    Plus, // + (OK)
+    Minus, // - (OK)
     Star, // *
     Slash, // /
     OpenParen, // (

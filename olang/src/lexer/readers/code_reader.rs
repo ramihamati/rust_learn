@@ -45,6 +45,22 @@ impl<'a> InputReader<'a> {
         return true;
     }
 
+    pub fn peek_one(self: &Self) -> Option<char>{
+        /*
+         let code = "hello"
+         if current == len then [current .. current+1] means [len .. len + 1]
+         code[5..5+1] -> panic
+         code[4..4+1] -> "o"
+      */
+        return if (self.scanner_current + 1 == self.input.len()) {
+            // if 4 + 1 = 5 and code.len() = 5 we have nothing to peek
+            None
+        } else {
+            let peeked = &self.input[self.scanner_current..self.scanner_current + 1];
+            peeked.chars().next()
+        }
+    }
+
     pub fn revert_advance(self: &mut Self){
         self.scanner_current = self.scanner_start;
         self.line_current = self.line_start;
@@ -63,7 +79,11 @@ impl<'a> InputReader<'a> {
         self.scanner_current < self.input.len()
     }
 
-    pub(crate) fn get_lexeme(self: &Self) -> String {
+    pub fn is_identifier_char(self: &Self, c: char) -> bool{
+        return c.is_alphanumeric() || c == '_';
+    }
+
+    pub fn get_lexeme(self: &Self) -> String {
         let mut text = String::new();
 
         for i in self.scanner_start..self.scanner_current {

@@ -10,6 +10,7 @@ use crate::lexer::{TokenMatcher};
 use crate::lexer::TokenType;
 use crate::lexer::TokenMatcherPlus;
 use crate::lexer::TokenMatcherMinus;
+use crate::lexer::TokenMatcherIf;
 
 pub struct Lexer<'a> {
     tokens: Vec<Token>,
@@ -33,7 +34,11 @@ impl<'a> Lexer<'a> {
         matchers.push(Box::new(TokenMatcherPlus {}));
         matchers.push(Box::new(TokenMatcherMinus {}));
 
+        // double length fixed characters
         matchers.push(Box::new(TokenMatcherEqualEqual {}));
+
+        // reserved keywords bound by identifiers
+        matchers.push(Box::new(TokenMatcherIf{}));
 
         Lexer {
             tokens: vec![],

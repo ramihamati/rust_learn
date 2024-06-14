@@ -1,6 +1,6 @@
 use std::fmt::{Display, Formatter};
-use crate::lexer::literal_value::LiteralValue;
-use crate::lexer::token_type::TokenType;
+use crate::lexer::symbols::literal_value::LiteralValue;
+use crate::lexer::symbols::token_type::TokenType;
 
 #[derive(Debug, Clone)]
 pub struct Token {

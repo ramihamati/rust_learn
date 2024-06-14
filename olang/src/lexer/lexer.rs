@@ -5,9 +5,9 @@ use crate::lexer::matchers::comma_token_matcher::CommaTokenMatcher;
 use crate::lexer::matchers::equalequal_token_matcher::EqualEqualTokenMatcher;
 use crate::lexer::matchers::open_brace_token_matcher::OpenBraceTokenMatcher;
 use crate::lexer::matchers::open_paren_token_matcher::OpenParenTokenMatcher;
-use crate::lexer::token::Token;
+use crate::lexer::symbols::token::Token;
 use crate::lexer::token_matcher::{TokenMatcher};
-use crate::lexer::token_type::TokenType;
+use crate::lexer::symbols::token_type::TokenType;
 
 pub struct Lexer<'a> {
     tokens: Vec<Token>,

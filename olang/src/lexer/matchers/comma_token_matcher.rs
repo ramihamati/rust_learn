@@ -1,7 +1,7 @@
 use crate::lexer::readers::code_reader::InputReader;
-use crate::lexer::token::Token;
+use crate::lexer::symbols::token::Token;
 use crate::lexer::token_matcher::{TokenMatcher};
-use crate::lexer::token_type::TokenType;
+use crate::lexer::symbols::token_type::TokenType;
 
 pub struct CommaTokenMatcher {
 }

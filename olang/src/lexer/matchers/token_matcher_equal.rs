@@ -9,7 +9,7 @@ pub struct TokenMatcherEqual {
 
 impl<'a> TokenMatcher<'a> for TokenMatcherEqual {
     fn create(&self, reader: &mut InputReader) -> Option<Token> {
-        TokenMatcherHelper::match_single_character(
+        TokenMatcherHelper::match_character(
             reader,
             '=',
             TokenType::Equal)

@@ -3,7 +3,8 @@ use crate::lexer::{InputReader, Token, TokenType};
 pub struct TokenMatcherHelper {}
 
 impl TokenMatcherHelper {
-    pub fn match_single_character(reader: &mut InputReader, character: char, token_type: TokenType) -> Option<Token> {
+
+    pub fn match_character(reader: &mut InputReader, character: char, token_type: TokenType) -> Option<Token> {
         if !reader.advance(1) {
             return None;
         }
@@ -30,14 +31,16 @@ impl TokenMatcherHelper {
         };
     }
 
-    pub fn match_no_bound_condition(reader: &mut InputReader, count: usize, matcher: &str, token_type: TokenType) -> Option<Token> {
+    pub fn match_symbol(reader: &mut InputReader, symbol: &str, token_type: TokenType) -> Option<Token> {
+        let count = symbol.len();
+
         if (!reader.advance(count)) {
             return None;
         }
 
         let peek = reader.collect();
 
-        if peek == matcher {
+        if peek == symbol {
             let token = Token {
                 token_type,
                 line_number: reader.line,
@@ -54,9 +57,11 @@ impl TokenMatcherHelper {
         return None;
     }
 
-    pub fn match_bound_condition<F>(reader: &mut InputReader, count: usize, matcher: &str, token_type: TokenType, valid_next_char: F) -> Option<Token>
+    pub fn match_symbol_bounded_by<F>(reader: &mut InputReader, symbol: &str, token_type: TokenType, valid_next_char: F) -> Option<Token>
         where F: Fn(char) -> bool
     {
+        let count = symbol.len();
+
         if !reader.advance(count) {
             return None;
         }
@@ -64,7 +69,7 @@ impl TokenMatcherHelper {
         // collect before peeking next char
         let collected = reader.collect();
 
-        if (collected != matcher) {
+        if (collected != symbol) {
             reader.revert_advance();
             return None;
         }
@@ -83,7 +88,7 @@ impl TokenMatcherHelper {
             }
         };
 
-        if collected == matcher && is_valid_next_char {
+        if collected == symbol && is_valid_next_char {
             let token = Token {
                 token_type: token_type,
                 line_number: reader.line,

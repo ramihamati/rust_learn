@@ -5,17 +5,19 @@ use crate::lexer::matchers::token_matcher_helper::TokenMatcherHelper;
 use crate::lexer::str_classifier::str_classifier;
 use crate::lexer::TokenType;
 
-pub struct TokenMatcherIf {}
+pub struct TokenMatcherContinue {}
 
-impl<'a> TokenMatcher<'a> for TokenMatcherIf {
+impl<'a> TokenMatcher<'a> for TokenMatcherContinue {
     fn create(&self, reader: &mut InputReader) -> Option<Token> {
         TokenMatcherHelper::match_symbol_bounded_by(
             reader,
-            "if",
-            TokenType::If,
+            "continue",
+            TokenType::Continue,
             |next_char| {
                 !str_classifier::is_identifier_char(next_char)
             }
         )
     }
+
+
 }

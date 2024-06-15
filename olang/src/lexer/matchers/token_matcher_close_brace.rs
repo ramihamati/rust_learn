@@ -8,7 +8,7 @@ pub struct TokenMatcherCloseBrace {}
 
 impl<'a> TokenMatcher<'a> for TokenMatcherCloseBrace {
     fn create(&self, reader: &mut InputReader) -> Option<Token> {
-        TokenMatcherHelper::match_single_character(
+        TokenMatcherHelper::match_character(
             reader,
             '}',
             TokenType::CloseBrace)

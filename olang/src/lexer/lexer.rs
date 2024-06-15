@@ -1,6 +1,6 @@
-use crate::lexer::{InputReader, TokenMatcherAmpAmp, TokenMatcherPipePipe, TokenMatcherEqual, TokenMatcherStruct, TokenMatcherVar};
-use crate::lexer::TokenMatcherCloseBrace;
-use crate::lexer::TokenMatcherCloseParen;
+use crate::lexer::{InputReader, TokenMatcherAmpAmp, TokenMatcherBreak, TokenMatcherPipePipe};
+use crate::lexer::{TokenMatcherCloseBrace, TokenMatcherContinue};
+use crate::lexer::{TokenMatcherCloseParen, TokenMatcherEqual, TokenMatcherStruct, TokenMatcherVar};
 use crate::lexer::TokenMatcherComma;
 use crate::lexer::TokenMatcherEqualEqual;
 use crate::lexer::TokenMatcherOpenBrace;
@@ -49,6 +49,8 @@ impl<'a> Lexer<'a> {
         matchers.push(Box::new(TokenMatcherLoop {}));
         matchers.push(Box::new(TokenMatcherStruct {}));
         matchers.push(Box::new(TokenMatcherVar {}));
+        matchers.push(Box::new(TokenMatcherContinue {}));
+        matchers.push(Box::new(TokenMatcherBreak{}));
 
         Lexer {
             tokens: vec![],

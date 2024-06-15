@@ -1,0 +1,11 @@
+break scanning for some identifiers at end of line and increase line number reset line current
+    end of line should be env invariant (EOL does not matter, we can write one liners, but no token is valid in 2 lines)
+
+comptime
+
+source : for injecting at compile time
+
+source fn DoSomething(var){}
+
+source_generate DoSomething(1) // is it worth it or is it like generics?
+// code injection should be usefull

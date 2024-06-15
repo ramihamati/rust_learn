@@ -9,9 +9,8 @@ pub struct TokenMatcherAmpAmp {
 
 impl<'a> TokenMatcher<'a> for TokenMatcherAmpAmp {
     fn create(&self, reader: &mut InputReader) -> Option<Token> {
-        TokenMatcherHelper::match_no_bound_condition(
+        TokenMatcherHelper::match_symbol(
             reader,
-            2,
             "&&",
             TokenType::AmpAmp
         )

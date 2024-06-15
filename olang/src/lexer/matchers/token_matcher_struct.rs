@@ -9,9 +9,8 @@ pub struct TokenMatcherStruct {}
 
 impl<'a> TokenMatcher<'a> for TokenMatcherStruct {
     fn create(&self, reader: &mut InputReader) -> Option<Token> {
-        TokenMatcherHelper::match_bound_condition(
+        TokenMatcherHelper::match_symbol_bounded_by(
             reader,
-            6,
             "struct",
             TokenType::Struct,
             |next_char| {

@@ -9,6 +9,6 @@ pub struct TokenMatcherComma {
 
 impl<'a> TokenMatcher<'a> for TokenMatcherComma {
     fn create(&self, reader: &mut InputReader) -> Option<Token> {
-        TokenMatcherHelper::match_single_character(reader, ',', TokenType::Comma)
+        TokenMatcherHelper::match_character(reader, ',', TokenType::Comma)
     }
 }

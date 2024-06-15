@@ -9,7 +9,7 @@ pub struct TokenMatcherOpenParen {
 
 impl<'a> TokenMatcher<'a> for TokenMatcherOpenParen {
     fn create(&self, reader: &mut InputReader) -> Option<Token> {
-        TokenMatcherHelper::match_single_character(
+        TokenMatcherHelper::match_character(
             reader,
             '(',
             TokenType::OpenParen)

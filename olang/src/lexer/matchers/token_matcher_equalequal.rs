@@ -9,9 +9,8 @@ pub struct TokenMatcherEqualEqual {
 
 impl<'a> TokenMatcher<'a> for TokenMatcherEqualEqual {
     fn create(&self, reader: &mut InputReader) -> Option<Token> {
-        TokenMatcherHelper::match_no_bound_condition(
+        TokenMatcherHelper::match_symbol(
             reader,
-            2,
             "==",
             TokenType::EqualEqual
         )

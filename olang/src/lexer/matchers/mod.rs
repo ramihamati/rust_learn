@@ -15,6 +15,8 @@ pub mod token_matcher_equal;
 pub mod token_matcher_loop;
 pub mod token_matcher_struct;
 pub mod token_matcher_var;
+pub mod token_matcher_continue;
+pub mod token_matcher_break;
 mod token_matcher_helper;
 
 
@@ -35,4 +37,6 @@ pub use crate::lexer::token_matcher_equal::*;
 pub use crate::lexer::token_matcher_loop::*;
 pub use crate::lexer::token_matcher_struct::*;
 pub use crate::lexer::token_matcher_var::*;
+pub use crate::lexer::token_matcher_continue::*;
+pub use crate::lexer::token_matcher_break::*;
 

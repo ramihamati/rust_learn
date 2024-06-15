@@ -9,9 +9,8 @@ pub struct TokenMatcherElse {}
 
 impl<'a> TokenMatcher<'a> for TokenMatcherElse {
     fn create(&self, reader: &mut InputReader) -> Option<Token> {
-        TokenMatcherHelper::match_bound_condition(
+        TokenMatcherHelper::match_symbol_bounded_by(
             reader,
-            4,
             "else",
             TokenType::Else,
             |next_char| {

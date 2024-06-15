@@ -9,7 +9,7 @@ pub struct TokenMatcherPlus {
 
 impl<'a> TokenMatcher<'a> for TokenMatcherPlus {
     fn create(&self, reader: &mut InputReader) -> Option<Token> {
-        TokenMatcherHelper::match_single_character(
+        TokenMatcherHelper::match_character(
             reader,
             '+',
             TokenType::Plus)

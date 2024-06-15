@@ -34,7 +34,8 @@ pub enum TokenType {
     Assign, // =
     Comma, //,
     Dot, // .
-    LogicalAnd, // &&
+    AmpAmp, // && (OK)
+    PipePipe, // || (OK)
 
     Bang, // !
     BangEqual, // !=

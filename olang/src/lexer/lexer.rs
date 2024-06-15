@@ -1,4 +1,4 @@
-use crate::lexer::{InputReader, TokenMatcherLogicalAnd};
+use crate::lexer::{InputReader, TokenMatcherAmpAmp, TokenMatcherPipePipe};
 use crate::lexer::TokenMatcherCloseBrace;
 use crate::lexer::TokenMatcherCloseParen;
 use crate::lexer::TokenMatcherComma;
@@ -24,7 +24,13 @@ impl<'a> Lexer<'a> {
     pub(crate) fn new(input: &'a str) -> Self {
         let mut matchers : Vec<Box<dyn TokenMatcher>> = vec![];
 
-        // order as priority matters
+        /* order as priority matters
+             == should be recognized before = therefore == matcher comes before the = matcher
+        */
+        // double length fixed characters
+        matchers.push(Box::new(TokenMatcherEqualEqual {}));
+        matchers.push(Box::new(TokenMatcherAmpAmp {}));
+        matchers.push(Box::new(TokenMatcherPipePipe {}));
 
         // fixed length single characters
         matchers.push(Box::new(TokenMatcherOpenParen {}));
@@ -34,10 +40,6 @@ impl<'a> Lexer<'a> {
         matchers.push(Box::new(TokenMatcherComma {}));
         matchers.push(Box::new(TokenMatcherPlus {}));
         matchers.push(Box::new(TokenMatcherMinus {}));
-
-        // double length fixed characters
-        matchers.push(Box::new(TokenMatcherEqualEqual {}));
-        matchers.push(Box::new(TokenMatcherLogicalAnd {}));
 
         // reserved keywords bound by identifiers
         matchers.push(Box::new(TokenMatcherIf{}));

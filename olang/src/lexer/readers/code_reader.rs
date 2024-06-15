@@ -78,11 +78,6 @@ impl<'a> InputReader<'a> {
         //
         self.scanner_current < self.input.len()
     }
-
-    pub fn is_identifier_char(self: &Self, c: char) -> bool{
-        return c.is_alphanumeric() || c == '_';
-    }
-
     pub fn get_lexeme(self: &Self) -> String {
         let mut text = String::new();
 

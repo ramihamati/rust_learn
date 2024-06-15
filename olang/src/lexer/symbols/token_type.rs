@@ -10,17 +10,18 @@ pub enum TokenType {
     // Keywords
     If, // if (OK)
     Else, // else (OK)
-    Loop, // while
-    Struct,
+    Loop, // while (OK)
+    Struct,  // struct(OK)
     Func, // fn
     Nil, // nil
     Return, // return
     This, // self,
     True, // true,
     False, // false
-    Var, // var or let?
+    Var, // var (OK)
     Continue,
     Break,
+    Public, // public
     ScopeReturn, // <-
     // other
     Plus, // + (OK)

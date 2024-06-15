@@ -52,7 +52,7 @@ impl<'a> InputReader<'a> {
          code[5..5+1] -> panic
          code[4..4+1] -> "o"
       */
-        return if (self.scanner_current + 1 == self.input.len()) {
+        return if (self.scanner_current + 1 >= self.input.len()) {
             // if 4 + 1 = 5 and code.len() = 5 we have nothing to peek
             None
         } else {

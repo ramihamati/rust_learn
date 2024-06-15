@@ -1,4 +1,4 @@
-use crate::lexer::{InputReader, TokenMatcherAmpAmp, TokenMatcherPipePipe, TokenMatcherEqual};
+use crate::lexer::{InputReader, TokenMatcherAmpAmp, TokenMatcherPipePipe, TokenMatcherEqual, TokenMatcherStruct, TokenMatcherVar};
 use crate::lexer::TokenMatcherCloseBrace;
 use crate::lexer::TokenMatcherCloseParen;
 use crate::lexer::TokenMatcherComma;
@@ -17,13 +17,13 @@ use crate::lexer::TokenMatcherLoop;
 pub struct Lexer<'a> {
     tokens: Vec<Token>,
     reader: InputReader<'a>,
-    matchers : Vec<Box<dyn TokenMatcher<'a>>>
+    matchers: Vec<Box<dyn TokenMatcher<'a>>>,
 }
 
 
 impl<'a> Lexer<'a> {
     pub(crate) fn new(input: &'a str) -> Self {
-        let mut matchers : Vec<Box<dyn TokenMatcher>> = vec![];
+        let mut matchers: Vec<Box<dyn TokenMatcher>> = vec![];
 
         /* order as priority matters
              == should be recognized before = therefore == matcher comes before the = matcher
@@ -44,21 +44,23 @@ impl<'a> Lexer<'a> {
         matchers.push(Box::new(TokenMatcherEqual {}));
 
         // reserved keywords bound by identifiers
-        matchers.push(Box::new(TokenMatcherIf{}));
-        matchers.push(Box::new(TokenMatcherElse{}));
-        matchers.push(Box::new(TokenMatcherLoop{}));
+        matchers.push(Box::new(TokenMatcherIf {}));
+        matchers.push(Box::new(TokenMatcherElse {}));
+        matchers.push(Box::new(TokenMatcherLoop {}));
+        matchers.push(Box::new(TokenMatcherStruct {}));
+        matchers.push(Box::new(TokenMatcherVar {}));
 
         Lexer {
             tokens: vec![],
             reader: InputReader::new(input),
-            matchers
+            matchers,
         }
     }
 
-    pub fn get_next_token(self: &mut Self) -> Option<Token>{
+    pub fn get_next_token(self: &mut Self) -> Option<Token> {
         for matcher in &self.matchers {
             let res = matcher.create(&mut self.reader);
-            match res{
+            match res {
                 None => {
                     continue;
                 }
@@ -68,7 +70,7 @@ impl<'a> Lexer<'a> {
             }
         }
 
-        return None
+        return None;
     }
 
     pub fn scan_tokens(self: &mut Self) -> Result<Vec<Token>, String> {
@@ -78,10 +80,10 @@ impl<'a> Lexer<'a> {
         while self.reader.can_advance() {
             let next_token = self.get_next_token();
             match next_token {
-                Some(token) =>{
+                Some(token) => {
                     self.tokens.push(token);
                 }
-                None =>{
+                None => {
                     self.reader.advance(1);
                     unidentifierd = format!("{}{}", unidentifierd, self.reader.collect());
                     self.reader.forward();
@@ -116,5 +118,4 @@ impl<'a> Lexer<'a> {
             lexeme: "".to_string(),
         });
     }
-
 }

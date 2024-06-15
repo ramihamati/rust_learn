@@ -8,30 +8,27 @@ pub enum TokenType {
     Number,
 
     // Keywords
-    If, // if
-    Else, // else
+    If, // if (OK)
+    Else, // else (OK)
     Loop, // while
-    And, // and
     Struct,
     Func, // fn
     Nil, // nil
-    Or, // or
     Return, // return
     This, // self,
     True, // true,
     False, // false
-    Var, // var
+    Var, // var or let?
     // other
     Plus, // + (OK)
     Minus, // - (OK)
     Star, // *
     Slash, // /
-    OpenParen, // (
-    CloseParen, // )
-    OpenBrace, // {
-    CloseBrace, // }
+    OpenParen, // ( (OK)
+    CloseParen, // ) (OK)
+    OpenBrace, // { (OK)
+    CloseBrace, // } (OK)
     SemiColon, // ;
-    Assign, // =
     Comma, //,
     Dot, // .
     AmpAmp, // && (OK)
@@ -39,7 +36,8 @@ pub enum TokenType {
 
     Bang, // !
     BangEqual, // !=
-    EqualEqual, // ==
+    EqualEqual, // == (OK)
+    Equal, // = (OK)
     Greater, // >
     GreaterEqual, // >=
     Less, // <

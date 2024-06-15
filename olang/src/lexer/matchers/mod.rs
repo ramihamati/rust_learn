@@ -11,6 +11,7 @@ pub mod token_matcher_if;
 pub mod token_matcher_else;
 pub mod token_matcher_ampamp;
 pub mod token_matcher_pipepipe;
+pub mod token_matcher_equal;
 mod token_matcher_helper;
 
 
@@ -27,4 +28,5 @@ pub use crate::lexer::token_matcher_if::*;
 pub use crate::lexer::token_matcher_else::*;
 pub use crate::lexer::token_matcher_ampamp::*;
 pub use crate::lexer::token_matcher_pipepipe::*;
+pub use crate::lexer::token_matcher_equal::*;
 

@@ -9,7 +9,9 @@ pub mod token_matcher_plus;
 pub mod token_matcher_minus;
 pub mod token_matcher_if;
 pub mod token_matcher_else;
+pub mod token_matcher_logicaland;
 mod token_matcher_helper;
+
 
 pub use crate::lexer::token_matcher_open_paren::*;
 pub use crate::lexer:: token_matcher_close_paren::*;
@@ -22,4 +24,5 @@ pub use crate::lexer::token_matcher_plus::*;
 pub use crate::lexer::token_matcher_minus::*;
 pub use crate::lexer::token_matcher_if::*;
 pub use crate::lexer::token_matcher_else::*;
+pub use crate::lexer::token_matcher_logicaland::*;
 

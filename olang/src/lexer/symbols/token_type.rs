@@ -33,7 +33,8 @@ pub enum TokenType {
     SemiColon, // ;
     Assign, // =
     Comma, //,
-    Dot, //
+    Dot, // .
+    LogicalAnd, // &&
 
     Bang, // !
     BangEqual, // !=

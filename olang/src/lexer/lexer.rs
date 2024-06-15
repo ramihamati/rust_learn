@@ -1,4 +1,4 @@
-use crate::lexer::InputReader;
+use crate::lexer::{InputReader, TokenMatcherLogicalAnd};
 use crate::lexer::TokenMatcherCloseBrace;
 use crate::lexer::TokenMatcherCloseParen;
 use crate::lexer::TokenMatcherComma;
@@ -37,6 +37,7 @@ impl<'a> Lexer<'a> {
 
         // double length fixed characters
         matchers.push(Box::new(TokenMatcherEqualEqual {}));
+        matchers.push(Box::new(TokenMatcherLogicalAnd {}));
 
         // reserved keywords bound by identifiers
         matchers.push(Box::new(TokenMatcherIf{}));

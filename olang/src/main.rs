@@ -2,7 +2,7 @@ use crate::lexer::Lexer;
 mod lexer;
 
 fn main() {
-    let code = "if(a==b){b=c}===";
+    let code = "loop{}";
 
     let mut lexer = Lexer::new(code);
     let tokens = lexer.scan_tokens();

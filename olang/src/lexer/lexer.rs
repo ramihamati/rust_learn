@@ -12,6 +12,7 @@ use crate::lexer::TokenMatcherPlus;
 use crate::lexer::TokenMatcherMinus;
 use crate::lexer::TokenMatcherIf;
 use crate::lexer::TokenMatcherElse;
+use crate::lexer::TokenMatcherLoop;
 
 pub struct Lexer<'a> {
     tokens: Vec<Token>,
@@ -45,6 +46,7 @@ impl<'a> Lexer<'a> {
         // reserved keywords bound by identifiers
         matchers.push(Box::new(TokenMatcherIf{}));
         matchers.push(Box::new(TokenMatcherElse{}));
+        matchers.push(Box::new(TokenMatcherLoop{}));
 
         Lexer {
             tokens: vec![],

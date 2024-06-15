@@ -19,6 +19,9 @@ pub enum TokenType {
     True, // true,
     False, // false
     Var, // var or let?
+    Continue,
+    Break,
+    ScopeReturn, // <-
     // other
     Plus, // + (OK)
     Minus, // - (OK)

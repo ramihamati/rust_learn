@@ -43,7 +43,7 @@ pub enum TokenType {
     EqualEqual,     // (OK) ==
     Equal,          // (OK) =
     Greater,        // >
-    GreaterEqual,   // >=
+    GreaterEqual,   // (OK) >=
     Less,           // <
     LessEqual,      // <=
     SlashSlash,     // (OK) //

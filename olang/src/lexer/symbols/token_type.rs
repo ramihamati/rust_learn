@@ -45,7 +45,7 @@ pub enum TokenType {
     Greater,        // >
     GreaterEqual,   // (OK) >=
     Less,           // <
-    LessEqual,      // <=
+    LessEqual,      // (OK) <=
     SlashSlash,     // (OK) //
     SlashStar,      // /*
     StarSlash,      // */

@@ -18,6 +18,7 @@ pub mod token_matcher_var;
 pub mod token_matcher_continue;
 pub mod token_matcher_break;
 pub mod token_matcher_comment_line;
+pub mod token_matcher_bangequal;
 mod token_matcher_helper;
 
 
@@ -41,4 +42,5 @@ pub use crate::lexer::token_matcher_var::*;
 pub use crate::lexer::token_matcher_continue::*;
 pub use crate::lexer::token_matcher_break::*;
 pub use crate::lexer::token_matcher_comment_line::*;
+pub use crate::lexer::token_matcher_bangequal::*;
 

@@ -50,32 +50,27 @@ impl<'a> InputReader<'a> {
     pub fn advance_until_end_of_line(self: &mut Self) -> bool
     {
         let eolstr = EOL.to_string();
-        // if current_symbol is //
-        // then line_current will reflect the char immediately after the last /
-        // i.e. code="if//a" -> line_current=4
-        if (self.line_current > 0 ){
-            let current = self.input[self.scanner_start - 1 .. self.scanner_start].to_string();
-            // this code is for debugging
-            // current should be a
-        }
 
-        // if we can't advance, simple return
-        if (self.scanner_start + 1) > self.input.len() {
+        // code = "//"
+        // scanner_start is 2 (= len())
+        // scanner_start + 1 is 3
+        // code[2..3] would panic
+        if (self.scanner_current + 1) > self.input.len() {
             return false;
         }
 
         // code = "a//a"
-        // when line_current=2 (second /)
-        // advance once => line_current = 3 (a)
-        // if current character is EOL then nothing to collect
+        // scanner_current is 3 (repr a)
         loop{
-            let current =self.input[self.scanner_start..self.scanner_start + 1].to_string();
+            // current us code[3..4] => a (last char)
+            let current =self.input[self.scanner_current..self.scanner_current + 1].to_string();
             if  current == eolstr {
                 break;
             }
-            self.scanner_start +=  1;
             self.scanner_current += 1;
-            if (self.scanner_start + 1) > self.input.len() {
+            self.line_current += 1;
+            // code[4..5] would panic
+            if (self.scanner_current + 1) > self.input.len() {
                 break;
             }
         }

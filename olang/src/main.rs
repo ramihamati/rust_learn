@@ -2,7 +2,7 @@ use crate::lexer::Lexer;
 mod lexer;
 
 fn main() {
-    let code = "}//a
+    let code = "}//asd //
 if";
 
     let mut lexer = Lexer::new(code);

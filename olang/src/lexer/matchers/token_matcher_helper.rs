@@ -1,4 +1,4 @@
-use crate::lexer::{InputReader, Token, TokenType};
+use crate::lexer::{InputReader, LiteralValue, Token, TokenType};
 
 pub struct TokenMatcherHelper {}
 
@@ -50,6 +50,39 @@ impl TokenMatcherHelper {
             };
             reader.forward();
 
+            return Some(token);
+        }
+
+        reader.revert_advance();
+        return None;
+    }
+
+    pub fn match_symbol_extract_literal<F>(reader: &mut InputReader, symbol: &str, token_type: TokenType, extract : F) -> Option<Token>
+    where F : Fn(&mut InputReader) -> Option<LiteralValue> {
+        let count = symbol.len();
+
+        if (!reader.advance(count)) {
+            return None;
+        }
+
+        let peek = reader.collect();
+
+        if peek == symbol {
+            let line_number = reader.line;
+            let position = reader.line_start;
+            let lexeme = peek.to_string();
+            reader.forward();
+
+            let literal_value = extract(reader);
+
+            let token = Token {
+                token_type,
+                line_number,
+                position,
+                lexeme,
+                literal_value,
+            };
+            reader.forward();
             return Some(token);
         }
 

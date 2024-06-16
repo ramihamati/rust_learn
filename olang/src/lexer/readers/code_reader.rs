@@ -35,7 +35,7 @@ impl<'a> InputReader<'a> {
         // if code.len = 5
         // if current = 5 & start = 4 we have a valid [4..5]
         // this means that line_current + char_count can be self.input.len()
-        if (self.line_current + char_count) > self.input.len() {
+        if (self.scanner_start + char_count) > self.input.len() {
             return false;
         }
 
@@ -45,6 +45,40 @@ impl<'a> InputReader<'a> {
         return true;
     }
 
+    pub fn advance_until_end_of_line(self: &mut Self) -> bool
+    {
+        // if current_symbol is //
+        // then line_current will reflect the char immediately after the last /
+        // i.e. code="if//a" -> line_current=4
+        if (self.line_current > 0 ){
+            let current = self.input[self.scanner_start - 1 .. self.scanner_start].to_string();
+            // this code is for debugging
+            // current should be a
+        }
+
+        // if we can't advance, simple return
+        if (self.scanner_start + 1) > self.input.len() {
+            return false;
+        }
+
+        // code = "a//a"
+        // when line_current=2 (second /)
+        // advance once => line_current = 3 (a)
+        // if current character is EOL then nothing to collect
+        loop{
+            let current =self.input[self.scanner_start..self.scanner_start + 1].to_string();
+            if  current == "\n".to_string() {
+                break;
+            }
+            self.scanner_start +=  1;
+            self.scanner_current += 1;
+            if (self.scanner_start + 1) > self.input.len() {
+                break;
+            }
+        }
+
+        return true;
+    }
     pub fn peek_one(self: &Self) -> Option<char>{
         /*
          let code = "hello"
@@ -77,6 +111,26 @@ impl<'a> InputReader<'a> {
         //    which would result in current = 6 which is outside of bounds
         //
         self.scanner_current < self.input.len()
+    }
+
+    pub fn identify_new_line(self: &mut Self){ // TODO: maybe this should be in a token to have all data maped
+        match self.peek_one(){
+            Some(ch) =>{
+                if (ch == '\n'){
+                    println!("identified new line");
+
+                    self.advance(1);
+                    self.forward();
+                    // resetting after advance
+                    self.line += 1;
+                    self.line_start = 0;
+                    self.line_current = 0;
+                }
+            }
+            None => {
+                // do nothing
+            }
+        }
     }
     pub fn get_lexeme(self: &Self) -> String {
         let mut text = String::new();

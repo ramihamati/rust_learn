@@ -1,4 +1,4 @@
-use crate::lexer::{InputReader, TokenMatcherAmpAmp, TokenMatcherBreak, TokenMatcherPipePipe};
+use crate::lexer::{InputReader, TokenMatcherAmpAmp, TokenMatcherBreak, TokenMatcherCommentLine, TokenMatcherPipePipe};
 use crate::lexer::{TokenMatcherCloseBrace, TokenMatcherContinue};
 use crate::lexer::{TokenMatcherCloseParen, TokenMatcherEqual, TokenMatcherStruct, TokenMatcherVar};
 use crate::lexer::TokenMatcherComma;
@@ -44,6 +44,7 @@ impl<'a> Lexer<'a> {
         matchers.push(Box::new(TokenMatcherEqual {}));
 
         // reserved keywords bound by identifiers
+        matchers.push(Box::new(TokenMatcherCommentLine {}));
         matchers.push(Box::new(TokenMatcherIf {}));
         matchers.push(Box::new(TokenMatcherElse {}));
         matchers.push(Box::new(TokenMatcherLoop {}));
@@ -80,6 +81,7 @@ impl<'a> Lexer<'a> {
         let mut unidentifierd = String::new();
 
         while self.reader.can_advance() {
+            self.reader.identify_new_line();
             let next_token = self.get_next_token();
             match next_token {
                 Some(token) => {
@@ -107,7 +109,7 @@ impl<'a> Lexer<'a> {
         //
         //     return Err(joined);
         // }
-        println!("unidentified {}", unidentifierd);
+        println!("unidentified {} {}", unidentifierd.len(), unidentifierd);
         Ok(self.tokens.clone())
     }
 

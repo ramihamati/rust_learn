@@ -2,8 +2,8 @@ use crate::lexer::Lexer;
 mod lexer;
 
 fn main() {
-    let code = "}//asd //
-if!=>=<=";
+    let code = "}//asd //;
+if!=>=<=;";
 
     let mut lexer = Lexer::new(code);
     let tokens = lexer.scan_tokens();

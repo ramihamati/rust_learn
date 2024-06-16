@@ -21,6 +21,7 @@ pub mod token_matcher_comment_line;
 pub mod token_matcher_bangequal;
 pub mod token_matcher_greaterequal;
 pub mod token_matcher_lessequal;
+pub mod token_matcher_semicolon;
 mod token_matcher_helper;
 
 
@@ -47,4 +48,5 @@ pub use crate::lexer::token_matcher_comment_line::*;
 pub use crate::lexer::token_matcher_greaterequal::*;
 pub use crate::lexer::token_matcher_bangequal::*;
 pub use crate::lexer::token_matcher_lessequal::*;
+pub use crate::lexer::token_matcher_semicolon::*;
 

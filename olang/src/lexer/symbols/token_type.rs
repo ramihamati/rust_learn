@@ -32,7 +32,7 @@ pub enum TokenType {
     CloseParen,     // (OK) )
     OpenBrace,      // (OK) {
     CloseBrace,     // (OK) }
-    SemiColon,      // ;
+    SemiColon,      // (OK) ;
     Comma,          //,
     Dot,            // .
     AmpAmp,         // (OK) &&

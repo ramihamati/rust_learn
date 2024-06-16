@@ -115,7 +115,7 @@ impl<'a> Lexer<'a> {
 
     fn add_eof(self: &mut Self) {
         self.tokens.push(Token {
-            position: self.reader.scanner_current,
+            position: self.reader.line_current,
             line_number: self.reader.line,
             literal_value: None,
             token_type: TokenType::EOF,

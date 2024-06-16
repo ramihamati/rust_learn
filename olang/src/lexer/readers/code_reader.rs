@@ -1,3 +1,5 @@
+use std::string::ToString;
+
 pub struct InputReader<'a> {
     input: &'a str,
     input_as_bytes: &'a [u8],
@@ -7,7 +9,7 @@ pub struct InputReader<'a> {
     pub line: usize, // line number
     pub scanner_start: usize, // scanner start
 }
-
+const EOL : char = '\n';
 impl<'a> InputReader<'a> {
     pub fn new(input: &'a str) -> InputReader {
         InputReader {
@@ -47,6 +49,7 @@ impl<'a> InputReader<'a> {
 
     pub fn advance_until_end_of_line(self: &mut Self) -> bool
     {
+        let eolstr = EOL.to_string();
         // if current_symbol is //
         // then line_current will reflect the char immediately after the last /
         // i.e. code="if//a" -> line_current=4
@@ -67,7 +70,7 @@ impl<'a> InputReader<'a> {
         // if current character is EOL then nothing to collect
         loop{
             let current =self.input[self.scanner_start..self.scanner_start + 1].to_string();
-            if  current == "\n".to_string() {
+            if  current == eolstr {
                 break;
             }
             self.scanner_start +=  1;
@@ -113,15 +116,13 @@ impl<'a> InputReader<'a> {
         self.scanner_current < self.input.len()
     }
 
-    pub fn identify_new_line(self: &mut Self){ // TODO: maybe this should be in a token to have all data maped
+    pub fn identify_new_line(self: &mut Self){
         match self.peek_one(){
             Some(ch) =>{
-                if (ch == '\n'){
-                    println!("identified new line");
-
+                if (ch == EOL){
                     self.advance(1);
                     self.forward();
-                    // resetting after advance
+                    // resetting after advance to have the correct line_start and line_current
                     self.line += 1;
                     self.line_start = 0;
                     self.line_current = 0;

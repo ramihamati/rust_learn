@@ -9,3 +9,6 @@ source fn DoSomething(var){}
 
 source_generate DoSomething(1) // is it worth it or is it like generics?
 // code injection should be usefull
+
+1. lexeme : add the entire thing (in comments include start and end tokens)
+2. token: add position start/position end, line start, line end (position includes the entire thing, the lexeme, not the extracted content)

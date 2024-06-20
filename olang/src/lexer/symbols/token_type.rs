@@ -38,17 +38,16 @@ pub enum TokenType {
     AmpAmp,         // (OK) &&
     PipePipe,       // (OK) ||
 
-    Bang,           // !
-    BangEqual,      // !=
-    EqualEqual,     // (OK) ==
-    Equal,          // (OK) =
-    Greater,        // >
-    GreaterEqual,   // (OK) >=
-    Less,           // <
-    LessEqual,      // (OK) <=
-    SlashSlash,     // (OK) //
-    SlashStar,      // /*
-    StarSlash,      // */
+    Bang,               // !
+    BangEqual,          // !=
+    EqualEqual,         // (OK) ==
+    Equal,              // (OK) =
+    Greater,            // >
+    GreaterEqual,       // (OK) >=
+    Less,               // <
+    LessEqual,          // (OK) <=
+    CommentSingleLine,  // (OK) //
+    CommentMultiLine,   // /* */
     EOF,
     Illegal,
 }

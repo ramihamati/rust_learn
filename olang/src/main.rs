@@ -3,7 +3,8 @@ mod lexer;
 
 fn main() {
     let code = "}//asd //;
-if!=>=<=;*";
+/*if!=>=<=;*
+a*/";
 
     let mut lexer = Lexer::new(code);
     let tokens = lexer.scan_tokens();

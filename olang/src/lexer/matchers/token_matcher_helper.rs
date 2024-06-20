@@ -1,4 +1,4 @@
-use crate::lexer::{InputReader, LiteralValue, Token, TokenType};
+use crate::lexer::{InputReader, LiteralValue, Token, TokenState, TokenType};
 
 pub struct TokenMatcherHelper {}
 
@@ -18,6 +18,7 @@ impl TokenMatcherHelper {
                     position: reader.line_start,
                     lexeme: peek.to_string(),
                     literal_value: None,
+                    state: TokenState::Ok
                 };
                 reader.forward();
                 Some(token)
@@ -47,6 +48,7 @@ impl TokenMatcherHelper {
                 position: reader.line_start,
                 lexeme: peek.to_string(),
                 literal_value: None,
+                state: TokenState::Ok
             };
             reader.forward();
 
@@ -57,8 +59,8 @@ impl TokenMatcherHelper {
         return None;
     }
 
-    pub fn match_symbol_extract_literal<F>(reader: &mut InputReader, symbol: &str, token_type: TokenType, extract : F) -> Option<Token>
-    where F : Fn(&mut InputReader) -> Option<LiteralValue> {
+    pub fn match_symbol_extract_literal<F>(reader: &mut InputReader, symbol: &str, token_type: TokenType, mut extract : F) -> Option<Token>
+    where F : FnMut(&mut InputReader) -> Option<LiteralValue> {
         let count = symbol.len();
 
         if (!reader.advance(count)) {
@@ -81,6 +83,7 @@ impl TokenMatcherHelper {
                 position,
                 lexeme,
                 literal_value,
+                state: TokenState::Ok
             };
             reader.forward();
             return Some(token);
@@ -90,6 +93,8 @@ impl TokenMatcherHelper {
         return None;
     }
 
+    // Matches a symbol when it has a certain bound
+    // like if when it's followed by a space. It won't match an iff so the second f is not a valid_next_char
     pub fn match_symbol_bounded_by<F>(reader: &mut InputReader, symbol: &str, token_type: TokenType, valid_next_char: F) -> Option<Token>
         where F: Fn(char) -> bool
     {
@@ -128,6 +133,7 @@ impl TokenMatcherHelper {
                 position: reader.line_start,
                 lexeme: collected.to_string(),
                 literal_value: None,
+                state: TokenState::Ok
             };
             reader.forward();
             return Some(token);

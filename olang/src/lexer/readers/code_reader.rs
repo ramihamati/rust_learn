@@ -10,6 +10,12 @@ pub struct InputReader<'a> {
     pub scanner_start: usize, // scanner start
 }
 const EOL : char = '\n';
+
+pub enum SymbolLookupResult {
+    Found,
+    EndOfFileReached
+}
+
 impl<'a> InputReader<'a> {
     pub fn new(input: &'a str) -> InputReader {
         InputReader {
@@ -47,9 +53,41 @@ impl<'a> InputReader<'a> {
         return true;
     }
 
+    pub fn advance_until_symbol_found(self: &mut Self, symbol : &str) -> SymbolLookupResult
+    {
+        // code = "/*"
+        // scanner_start is 2 (= len())
+        // scanner_start + 1 is 3
+        // code[2..3] would panic
+        let symbol_length = symbol.len();
+
+        if (self.scanner_current + symbol_length) > self.input.len() {
+            return SymbolLookupResult::EndOfFileReached;
+        }
+
+        // code = "a/*a"
+        // scanner_current is 3 (repr a)
+        loop{
+            // current us code[3..4] => a (last char)
+            let current =self.input[self.scanner_current..self.scanner_current + symbol_length].to_string();
+            if  current == symbol {
+                return SymbolLookupResult::Found;
+            }
+            if (self.advance_if_new_line() == false){
+                self.scanner_current += 1;
+                self.line_current += 1;
+            }
+
+            // code[4..5] would panic
+            if (self.scanner_current + symbol_length) > self.input.len() {
+                return SymbolLookupResult::EndOfFileReached;
+            }
+        }
+    }
+
     pub fn advance_until_end_of_line(self: &mut Self) -> bool
     {
-        let eolstr = EOL.to_string();
+        let end_of_line_symbol = EOL.to_string();
 
         // code = "//"
         // scanner_start is 2 (= len())
@@ -64,7 +102,7 @@ impl<'a> InputReader<'a> {
         loop{
             // current us code[3..4] => a (last char)
             let current =self.input[self.scanner_current..self.scanner_current + 1].to_string();
-            if  current == eolstr {
+            if  current == end_of_line_symbol {
                 break;
             }
             self.scanner_current += 1;
@@ -111,7 +149,28 @@ impl<'a> InputReader<'a> {
         self.scanner_current < self.input.len()
     }
 
-    pub fn identify_new_line(self: &mut Self){
+    pub fn advance_if_new_line(self: &mut Self) -> bool {
+        match self.peek_one(){
+            Some(ch) =>{
+                if (ch == EOL){
+                    self.advance(1);
+                    // resetting after advance to have the correct line_start and line_current
+                    self.line += 1;
+                    self.line_start = 0;
+                    self.line_current = 0;
+                    true
+                }
+                else{
+                    false
+                }
+            }
+            None => {
+                false
+            }
+        }
+    }
+
+    pub fn forward_if_new_line(self: &mut Self) -> bool {
         match self.peek_one(){
             Some(ch) =>{
                 if (ch == EOL){
@@ -121,10 +180,14 @@ impl<'a> InputReader<'a> {
                     self.line += 1;
                     self.line_start = 0;
                     self.line_current = 0;
+                    true
+                }
+                else{
+                    false
                 }
             }
             None => {
-                // do nothing
+                false
             }
         }
     }

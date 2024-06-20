@@ -1,4 +1,4 @@
-use crate::lexer::{InputReader, TokenMatcherAmpAmp, TokenMatcherBangEqual, TokenMatcherBreak, TokenMatcherCommentLine, TokenMatcherGreaterEqual, TokenMatcherLessEqual, TokenMatcherPipePipe, TokenMatcherSemiColon, TokenMatcherStar};
+use crate::lexer::{InputReader, TokenMatcherAmpAmp, TokenMatcherBangEqual, TokenMatcherBreak, TokenMatcherCommentLine, TokenMatcherCommentMultiLine, TokenMatcherGreaterEqual, TokenMatcherLessEqual, TokenMatcherPipePipe, TokenMatcherSemiColon, TokenMatcherStar, TokenState};
 use crate::lexer::{TokenMatcherCloseBrace, TokenMatcherContinue};
 use crate::lexer::{TokenMatcherCloseParen, TokenMatcherEqual, TokenMatcherStruct, TokenMatcherVar};
 use crate::lexer::TokenMatcherComma;
@@ -35,6 +35,7 @@ impl<'a> Lexer<'a> {
         matchers.push(Box::new(TokenMatcherBangEqual {}));
         matchers.push(Box::new(TokenMatcherGreaterEqual {}));
         matchers.push(Box::new(TokenMatcherLessEqual {}));
+        matchers.push(Box::new(TokenMatcherCommentMultiLine {}));
 
         // fixed length single characters
         matchers.push(Box::new(TokenMatcherOpenParen {}));
@@ -86,7 +87,7 @@ impl<'a> Lexer<'a> {
         let mut unidentifierd = String::new();
 
         while self.reader.can_advance() {
-            self.reader.identify_new_line();
+            self.reader.forward_if_new_line();
             let next_token = self.get_next_token();
             match next_token {
                 Some(token) => {
@@ -125,6 +126,7 @@ impl<'a> Lexer<'a> {
             literal_value: None,
             token_type: TokenType::EOF,
             lexeme: "".to_string(),
+            state: TokenState::Ok
         });
     }
 }

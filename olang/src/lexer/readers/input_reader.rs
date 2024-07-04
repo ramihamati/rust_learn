@@ -188,13 +188,4 @@ impl<'a> InputReader<'a> {
             }
         }
     }
-    pub fn get_lexeme(self: &Self) -> String {
-        let mut text = String::new();
-
-        for i in self.scanner_start..self.scanner_current {
-            text.push(self.input.as_bytes()[i] as char)
-        }
-
-        text
-    }
 }

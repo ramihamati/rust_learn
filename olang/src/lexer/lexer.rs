@@ -1,9 +1,9 @@
-use crate::lexer::{InputReader, TokenMatcherAmpAmp, TokenMatcherBangEqual, TokenMatcherBreak,  TokenMatcherPipePipe, TokenState};
+use crate::lexer::{InputReader, TokenMatcherAmpAmp, TokenMatcherBreak,  TokenMatcherPipePipe, TokenState};
 use crate::lexer::{TokenMatcherCloseBrace, TokenMatcherContinue, TokenMatcherCommentLine, TokenMatcherCommentMultiLine, };
 use crate::lexer::{TokenMatcherCloseParen, TokenMatcherEqual, TokenMatcherStruct, TokenMatcherVar};
 use crate::lexer::{TokenMatcherComma, TokenMatcherGreaterEqual, TokenMatcherLessEqual, TokenMatcherSemiColon, TokenMatcherStar};
 use crate::lexer::TokenMatcherEqualEqual;
-use crate::lexer::TokenMatcherOpenBrace;
+use crate::lexer::{TokenMatcherOpenBrace, TokenMatcherBangEqual};
 use crate::lexer::TokenMatcherOpenParen;
 use crate::lexer::Token;
 use crate::lexer::{TokenMatcher};
@@ -32,7 +32,6 @@ impl<'a> Lexer<'a> {
         matchers.push(Box::new(TokenMatcherEqualEqual {}));
         matchers.push(Box::new(TokenMatcherAmpAmp {}));
         matchers.push(Box::new(TokenMatcherPipePipe {}));
-        matchers.push(Box::new(TokenMatcherBangEqual {}));
         matchers.push(Box::new(TokenMatcherGreaterEqual {}));
         matchers.push(Box::new(TokenMatcherLessEqual {}));
         matchers.push(Box::new(TokenMatcherCommentMultiLine {}));

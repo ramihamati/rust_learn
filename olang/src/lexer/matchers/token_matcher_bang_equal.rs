@@ -1,7 +1,7 @@
 use crate::lexer::InputReader;
 use crate::lexer::Token;
 use crate::lexer::{TokenMatcher};
-use crate::lexer::matchers::token_matcher_helper::TokenMatcherHelper;
+use crate::lexer::TokenMatcherHelper;
 use crate::lexer::TokenType;
 
 pub struct TokenMatcherBangEqual {

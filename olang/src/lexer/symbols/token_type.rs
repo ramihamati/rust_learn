@@ -39,7 +39,7 @@ pub enum TokenType {
     PipePipe,       // (OK) ||
 
     Bang,               // !
-    BangEqual,          // !=
+    BangEqual,          // (OK) !=
     EqualEqual,         // (OK) ==
     Equal,              // (OK) =
     Greater,            // >

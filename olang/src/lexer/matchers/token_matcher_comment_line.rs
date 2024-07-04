@@ -13,7 +13,7 @@ impl<'a> TokenMatcher<'a> for TokenMatcherCommentLine {
             "//",
             TokenType::CommentSingleLine,
             |reader|{
-                return if (reader.advance_until_end_of_line()) {
+                return if reader.advance_until_end_of_line() {
                     let literal_str = reader.collect().to_string();
                     let literal_value = LiteralValue::StringValue(String::from(literal_str));
                     Some(literal_value)

@@ -37,7 +37,7 @@ impl<'a> TokenMatcher<'a> for TokenMatcherCommentMultiLine {
             Some(value)  =>{
                 reader.advance(2);
                 reader.forward();
-                if (has_ending){
+                if has_ending {
                     Some(value)
                 }else {
                     let mutation = Token{

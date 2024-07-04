@@ -35,7 +35,7 @@ impl TokenMatcherHelper {
     pub fn match_symbol(reader: &mut InputReader, symbol: &str, token_type: TokenType) -> Option<Token> {
         let count = symbol.len();
 
-        if (!reader.advance(count)) {
+        if !reader.advance(count) {
             return None;
         }
 
@@ -63,9 +63,9 @@ impl TokenMatcherHelper {
     where F : FnMut(&mut InputReader) -> Option<LiteralValue> {
         let count = symbol.len();
 
-        if (!reader.advance(count)) {
+        if !reader.advance(count) {
             return None;
-        }
+        };
 
         let peek = reader.collect();
 
@@ -107,14 +107,14 @@ impl TokenMatcherHelper {
         // collect before peeking next char
         let collected = reader.collect();
 
-        if (collected != symbol) {
+        if collected != symbol {
             reader.revert_advance();
             return None;
         }
 
         let is_valid_next_char = match reader.peek_one() {
-            Some(nextChar) => {
-                if valid_next_char(nextChar){
+            Some(next_char) => {
+                if valid_next_char(next_char){
                     // it would be an iff or if_ or if1
                     true
                 } else {

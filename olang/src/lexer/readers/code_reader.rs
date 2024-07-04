@@ -1,4 +1,5 @@
 use std::string::ToString;
+use crate::lexer::readers::SymbolLookupResult;
 
 pub struct InputReader<'a> {
     input: &'a str,
@@ -11,10 +12,6 @@ pub struct InputReader<'a> {
 }
 const EOL : char = '\n';
 
-pub enum SymbolLookupResult {
-    Found,
-    EndOfFileReached
-}
 
 impl<'a> InputReader<'a> {
     pub fn new(input: &'a str) -> InputReader {
@@ -73,7 +70,7 @@ impl<'a> InputReader<'a> {
             if  current == symbol {
                 return SymbolLookupResult::Found;
             }
-            if (self.advance_if_new_line() == false){
+            if self.advance_if_new_line() == false {
                 self.scanner_current += 1;
                 self.line_current += 1;
             }
@@ -122,7 +119,7 @@ impl<'a> InputReader<'a> {
          code[5..5+1] -> panic
          code[4..4+1] -> "o"
       */
-        return if (self.scanner_current + 1 >= self.input.len()) {
+        return if self.scanner_current + 1 >= self.input.len() {
             // if 4 + 1 = 5 and code.len() = 5 we have nothing to peek
             None
         } else {
@@ -152,7 +149,7 @@ impl<'a> InputReader<'a> {
     pub fn advance_if_new_line(self: &mut Self) -> bool {
         match self.peek_one(){
             Some(ch) =>{
-                if (ch == EOL){
+                if ch == EOL {
                     self.advance(1);
                     // resetting after advance to have the correct line_start and line_current
                     self.line += 1;
@@ -173,7 +170,7 @@ impl<'a> InputReader<'a> {
     pub fn forward_if_new_line(self: &mut Self) -> bool {
         match self.peek_one(){
             Some(ch) =>{
-                if (ch == EOL){
+                if ch == EOL {
                     self.advance(1);
                     self.forward();
                     // resetting after advance to have the correct line_start and line_current

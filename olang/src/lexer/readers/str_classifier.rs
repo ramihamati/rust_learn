@@ -1,8 +1,8 @@
-pub struct str_classifier{
+pub struct StrClassifier {
 
 }
 
-impl str_classifier{
+impl StrClassifier {
     pub fn is_identifier_char(c: char) -> bool{
         return c.is_alphanumeric() || c == '_';
     }

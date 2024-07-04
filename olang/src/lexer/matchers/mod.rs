@@ -24,6 +24,7 @@ pub mod token_matcher_lessequal;
 pub mod token_matcher_semicolon;
 pub mod token_matcher_star;
 pub mod token_matcher_comment_multiline;
+pub mod token_matcher_bang_equal;
 mod token_matcher_helper;
 
 

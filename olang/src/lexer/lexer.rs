@@ -2,7 +2,7 @@ use crate::lexer::{InputReader, TokenMatcherAmpAmp, TokenMatcherBreak,  TokenMat
 use crate::lexer::{TokenMatcherCloseBrace, TokenMatcherContinue, TokenMatcherCommentLine, TokenMatcherCommentMultiLine, };
 use crate::lexer::{TokenMatcherCloseParen, TokenMatcherEqual, TokenMatcherStruct, TokenMatcherVar};
 use crate::lexer::{TokenMatcherComma, TokenMatcherGreaterEqual, TokenMatcherLessEqual, TokenMatcherSemiColon, TokenMatcherStar};
-use crate::lexer::TokenMatcherEqualEqual;
+use crate::lexer::{TokenMatcherEqualEqual, TokenMatcherBang};
 use crate::lexer::{TokenMatcherOpenBrace, TokenMatcherBangEqual};
 use crate::lexer::TokenMatcherOpenParen;
 use crate::lexer::Token;
@@ -48,6 +48,7 @@ impl<'a> Lexer<'a> {
         matchers.push(Box::new(TokenMatcherEqual {}));
         matchers.push(Box::new(TokenMatcherSemiColon {}));
         matchers.push(Box::new(TokenMatcherStar {}));
+        matchers.push(Box::new(TokenMatcherBang {}));
 
         // reserved keywords bound by identifiers
         matchers.push(Box::new(TokenMatcherCommentLine {}));

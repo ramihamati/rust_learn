@@ -38,7 +38,7 @@ pub enum TokenType {
     AmpAmp,         // (OK) &&
     PipePipe,       // (OK) ||
 
-    Bang,               // !
+    Bang,               // (OK) !
     BangEqual,          // (OK) !=
     EqualEqual,         // (OK) ==
     Equal,              // (OK) =

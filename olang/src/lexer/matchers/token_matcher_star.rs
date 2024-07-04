@@ -1,4 +1,4 @@
-use crate::lexer::readers::code_reader::InputReader;
+use crate::lexer::readers::input_reader::InputReader;
 use crate::lexer::symbols::token::Token;
 use crate::lexer::matchers::token_matcher::{ TokenMatcher};
 use crate::lexer::matchers::token_matcher_helper::TokenMatcherHelper;

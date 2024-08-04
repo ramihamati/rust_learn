@@ -1,4 +1,4 @@
-use crate::lexer::{InputReader, LiteralValue, Token, TokenState, TokenType};
+use crate::lexer::{InputReader, LiteralValue, Token, TokenLinePosition, TokenLocalisation, TokenState, TokenType};
 
 pub struct TokenMatcherHelper {}
 
@@ -14,8 +14,16 @@ impl TokenMatcherHelper {
             if first_char == character {
                 let token = Token {
                     token_type,
-                    line_number: reader.line,
-                    position: reader.line_start,
+                    position : TokenLocalisation{
+                        start  : TokenLinePosition{
+                            line_number : reader.line,
+                            position : reader.line_start
+                        },
+                        end  : TokenLinePosition{
+                            line_number : reader.line ,
+                            position : reader.line_current
+                        }
+                    },
                     lexeme: peek.to_string(),
                     literal_value: None,
                     state: TokenState::Ok
@@ -44,8 +52,16 @@ impl TokenMatcherHelper {
         if peek == symbol {
             let token = Token {
                 token_type,
-                line_number: reader.line,
-                position: reader.line_start,
+                position : TokenLocalisation{
+                    start  : TokenLinePosition{
+                        line_number : reader.line,
+                        position : reader.line_start
+                    },
+                    end  : TokenLinePosition{
+                        line_number : reader.line,
+                        position : reader.line_current
+                    }
+                },
                 lexeme: peek.to_string(),
                 literal_value: None,
                 state: TokenState::Ok
@@ -79,8 +95,16 @@ impl TokenMatcherHelper {
 
             let token = Token {
                 token_type,
-                line_number,
-                position,
+                position : TokenLocalisation{
+                    start  : TokenLinePosition{
+                        line_number : line_number,
+                        position : position
+                    },
+                    end  : TokenLinePosition{
+                        line_number : reader.line,
+                        position : reader.line_current
+                    }
+                },
                 lexeme,
                 literal_value,
                 state: TokenState::Ok
@@ -129,8 +153,16 @@ impl TokenMatcherHelper {
         if collected == symbol && is_valid_next_char {
             let token = Token {
                 token_type: token_type,
-                line_number: reader.line,
-                position: reader.line_start,
+                position : TokenLocalisation{
+                    start  : TokenLinePosition{
+                        line_number : reader.line,
+                        position : reader.line_start
+                    },
+                    end  : TokenLinePosition{
+                        line_number : reader.line,
+                        position : reader.line_current
+                    }
+                },
                 lexeme: collected.to_string(),
                 literal_value: None,
                 state: TokenState::Ok

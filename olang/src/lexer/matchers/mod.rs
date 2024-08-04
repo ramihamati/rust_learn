@@ -26,6 +26,7 @@ pub mod token_matcher_comment_multiline;
 pub mod token_matcher_bang_equal;
 pub mod token_matcher_helper;
 pub mod token_matcher_bang;
+pub mod token_matcher_fn;
 
 
 pub use crate::lexer::token_matcher_open_paren::*;
@@ -56,4 +57,4 @@ pub use crate::lexer::token_matcher_semicolon::*;
 pub use crate::lexer::token_matcher_star::*;
 pub use crate::lexer::token_matcher_comment_multiline::*;
 pub use crate::lexer::token_matcher_helper::*;
-
+pub use crate::lexer::token_matcher_fn::*;

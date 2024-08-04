@@ -1,10 +1,10 @@
-use crate::lexer::{InputReader, TokenMatcherAmpAmp, TokenMatcherBreak,  TokenMatcherPipePipe, TokenState};
+use crate::lexer::{InputReader, TokenLinePosition, TokenLocalisation, TokenMatcherAmpAmp, TokenMatcherBreak, TokenMatcherPipePipe, TokenState};
 use crate::lexer::{TokenMatcherCloseBrace, TokenMatcherContinue, TokenMatcherCommentLine, TokenMatcherCommentMultiLine, };
 use crate::lexer::{TokenMatcherCloseParen, TokenMatcherEqual, TokenMatcherStruct, TokenMatcherVar};
 use crate::lexer::{TokenMatcherComma, TokenMatcherGreaterEqual, TokenMatcherLessEqual, TokenMatcherSemiColon, TokenMatcherStar};
 use crate::lexer::{TokenMatcherEqualEqual, TokenMatcherBang};
 use crate::lexer::{TokenMatcherOpenBrace, TokenMatcherBangEqual};
-use crate::lexer::TokenMatcherOpenParen;
+use crate::lexer::{TokenMatcherOpenParen, TokenMatcherFn};
 use crate::lexer::Token;
 use crate::lexer::{TokenMatcher};
 use crate::lexer::TokenType;
@@ -36,6 +36,7 @@ impl<'a> Lexer<'a> {
         matchers.push(Box::new(TokenMatcherLessEqual {}));
         matchers.push(Box::new(TokenMatcherCommentMultiLine {}));
         matchers.push(Box::new(TokenMatcherBangEqual {}));
+        matchers.push(Box::new(TokenMatcherFn {}));
 
         // fixed length single characters
         matchers.push(Box::new(TokenMatcherOpenParen {}));
@@ -122,8 +123,16 @@ impl<'a> Lexer<'a> {
 
     fn add_eof(self: &mut Self) {
         self.tokens.push(Token {
-            position: self.reader.line_current,
-            line_number: self.reader.line,
+            position:  TokenLocalisation {
+                start : TokenLinePosition{
+                    position: self.reader.line_current,
+                    line_number: self.reader.line
+                },
+                end : TokenLinePosition{
+                    position: self.reader.line_current,
+                    line_number: self.reader.line
+                }
+            },
             literal_value: None,
             token_type: TokenType::EOF,
             lexeme: "".to_string(),

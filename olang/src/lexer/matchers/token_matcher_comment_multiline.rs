@@ -42,10 +42,9 @@ impl<'a> TokenMatcher<'a> for TokenMatcherCommentMultiLine {
                 }else {
                     let mutation = Token{
                         state : TokenState::MissingEndToken,
-                        line_number: value.line_number,
                         literal_value: value.literal_value,
                         lexeme: value.lexeme,
-                        position: value.position,
+                        position: value.position.clone(),
                         token_type: value.token_type
                     };
 

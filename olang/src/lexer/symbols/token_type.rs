@@ -12,8 +12,8 @@ pub enum TokenType {
     Else,           // (OK) else
     Loop,           // (OK) while
     Struct,         // (OK) struct
-    Func,           // fn
-    Nil,            // nil
+    Func,           // fn (OK)
+    Nil,            // null
     Return,         // return
     This,           // self,
     True,           // true,

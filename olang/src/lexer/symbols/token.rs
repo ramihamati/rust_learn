@@ -9,12 +9,23 @@ pub enum TokenState{
 }
 
 #[derive(Debug, Clone)]
+pub struct TokenLinePosition {
+    pub line_number: usize,
+    pub position: usize,
+}
+
+#[derive(Debug, Clone)]
+pub struct TokenLocalisation {
+    pub start: TokenLinePosition,
+    pub end: TokenLinePosition,
+}
+
+#[derive(Debug, Clone)]
 pub struct Token {
     pub token_type: TokenType,
     pub lexeme: String,
     pub literal_value: Option<LiteralValue>,
-    pub position: usize,
-    pub line_number: usize,
+    pub position: TokenLocalisation,
     pub state: TokenState,
 }
 
@@ -26,7 +37,24 @@ impl Token {
 
 impl Display for Token{
     fn fmt(&self, f: &mut Formatter<'_>) -> std::fmt::Result {
-        write!(f, "{{ token_type: {}, literal: {:?}, line: {}, position: {} }}", self.token_type, self.literal_value,
-        self.line_number, self.position)
+        write!(f, "\
+            {{ token_type: {}, \
+               literal: {:?}, \
+               line_start: {{\
+                   number: {},\
+                   position : {}\
+               }}, \
+               line_end : {{\
+                    number: {},\
+                    position: {}\
+               }}\
+             }}",
+               self.token_type, self.literal_value,
+               self.position.start.line_number,
+               self.position.start.position,
+               self.position.end.line_number,
+               self.position.end.position,
+
+        )
     }
 }
